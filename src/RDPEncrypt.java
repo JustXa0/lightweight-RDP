@@ -37,7 +37,7 @@ public class RDPEncrypt {
 		Cipher cipher = Cipher.getInstance("AES");
 		cipher.init(Cipher.ENCRYPT_MODE, secretKey);
 		byte [] unencryptedByte = unencryptedString.getBytes();
-		byte[] encryptedByte = cipher.doFinal(unencryptedByte);
+		byte [] encryptedByte = cipher.doFinal(unencryptedByte);
 		String encryptedString = new String(encryptedByte);
 		return encryptedString;
 		
