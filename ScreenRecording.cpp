@@ -28,6 +28,30 @@ private:
 	int target_frame_rate;
 
 	//define all windows functions
+
+	static char MonitorInfo(){
+		HMONITOR hMonitor;
+		MONITORINFOEX mi;
+		mi.cbSize = sizeof(MONITORINFOEX);
+	}
+
+	static BOOL CALLBACK MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData){
+		MONITORINFOEX mi;
+		mi.cbSize = sizeof(MONITORINFOEX);
+		GetMonitorInfo(hMonitor, &mi);
+
+		DISPLAY_DEVICE dd;
+		dd.cb = sizeof(DISPLAY_DEVICE);
+		EnumDisplayDevices(mi.szDevice, 0, &dd, 0);
+
+		/**
+		 * std::cout << "Monitor: " << hMonitor << std::endl;
+		 * std::wcout << "  Name: " << dd.DeviceString << std::endl;
+		 * std::wcout << "  Device: " << mi.szDevice << std::endl;
+		 */
+
+		return TRUE;
+	}
 	
 
 	//define all personal functions
@@ -38,7 +62,12 @@ private:
 
 	   JNIEXPORT jstring JNICALL Java_RDPScreenRecord_findDisplays
 	   (JNIEnv*, jobject) {
-		   EnumDisplayMonitors(NULL, NULL, &MonitorEnumProc, 0);
+		   //EnumDisplayMonitors(NULL, NULL, &MonitorEnumProc, 0);
+
+		char monitorInfo[] = {MonitorInfo()};
+		for(int i = 0; i < sizeof(monitorInfo); i++) {
+			std::cout << monitorInfo[i] << std::endl;
+		}
 
 	   }
 };
